@@ -2,12 +2,12 @@
 var searchHistory = document.getElementById('search-history');
 var searchBody = document.getElementsByClassName('search-body')
 var searchForm = document.getElementById('city-form')
-var searchInput = document.getElementsByClassName('search-input');
+var searchInput = document.getElementById('searchInput');
 var searchButton = document.getElementsByClassName('btn');
 var locationName = document.getElementById('location-name');
-var weather = document.getElementById('weather-section')
-var futureWeather = document.getElementById('future-weather');
-var date = document.getElementById('date')
+var weatherDIV = document.getElementById('weatherDIV-section')
+var futureweatherDIV = document.getElementById('future-weatherDIV');
+var tdate = document.getElementById('date')
 var temp = document.getElementById('temp');
 var currentIcon = document.getElementById('currentIcon');
 var wind = document.getElementById('wind');
@@ -19,10 +19,10 @@ var UV = document.getElementById('UV');
 var today = moment();
 
 var searchList = [];
-var MaxHistory = 10;
+var maxHistory = 10;
 
-function initlocalStorage() {
-    if(localStorage.getItem('storedSearches')) {
+function initLocalStorage(){
+    if (localStorage.getItem('storedSearches')){
         searchList = JSON.parse(localStorage.getItem('storedSearches'));
         for (let i = 0; i < searchList.length; i++) {
             createStoragebtn(searchList);
@@ -31,59 +31,59 @@ function initlocalStorage() {
 }
 
 function createStoragebtn(items) {
-    searchHistory.unnerHTML = '';
+    searchHistory.innerHTML = '';
     for (var i = 0; i < items.length; i++) {
-        var newEl = document.createElement("li");
+        var newEl = document.createElement('li');
         newEl.classList = "searchList btn";
         newEl.textContent = items[i];
         searchHistory.appendChild(newEl);
     }
-    searchList.value = '';
+    searchInput.value = '';
 };
+
 
 searchForm.addEventListener('submit', function(e) {
     searchBody.classList = "";
-    weather.style.display = 'block';
+    weatherDIV.style.display = 'block';
     e.preventDefault();
-    var input = searchList.value;
+    var input = searchInput.value;
     if(input.length > 0) {
-        weather(input);
+        currentWeather(input);
         searchList.unshift(input);
-        if(searchList.length > MaxHistory) {
+        if(searchList.length > maxHistory) {
             searchList.pop();
         }
         createStoragebtn(searchList);
         searchButton.blur();
-        localStorage.setItem('storedSearches'. JSON.stringify(searchList));
+        localStorage.setItem('storedSearches', JSON.stringify(searchList));
     }
 })
 
 searchHistory.addEventListener('click', function(e) {
-    if (e.target.matches('searchList')) {
-        e.preventDefault()
-        searchList.value = e.target.textContent;
+    if (e.target.matches('.searchList')) {
+        e.preventDefault();
+        searchInput.value = e.target.textContent;
         searchButton.click();
     }
 })
 
-function weather(location) {
+function currentWeather(location) {
     var apiKey = "011dffec3dd0ab191bb9b1386db7001b";
     var queryURL = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}}&aqi=no`;
     fetch(queryURL)
     .then(function (response) {
         return response.json();
     })
-    .then(function(weathers) {
-        var longitude = weathers.location.lon;
-        var latitude = weathers.location.lat;
+    .then(function (weather) {
+        var longitude = weather.location.lon;
+        var latitude = weather.location.lat;
+        locationName.textContent = weather.location.name + ', ' + weather.location.region;
 
-        locationName.textContent = weathers.location.name + ', ' + weathers.location.region;
-
-        date.textContent = today.format('MM/DD/YYYY');
-        humidity.textContent = weathers.current.humidity;
-        wind.textContent = weathers.current.wind_mph;
-        temp.textContent = weathers.current.temp_f;
-        UVColor(weathers.current.uv);
+        tdate.textContent = today.format('MM/DD/YYYY');
+        humidity.textContent = weather.current.humidity;
+        wind.textContent = weather.current.wind_mph;
+        temp.textContent = weather.current.temp_f;
+        UVColor(weather.current.uv);
         currentIcon.src = "https:" + weather.current.condition.icon;
         getForecast(latitude, longitude);
     });
@@ -131,10 +131,6 @@ function getForecast(lat, lon) {
             newEl = document.createElement('div');
             newEl.classList="mx-auto bg-white border rounded mb-2";
             newCard.appendChild(newEl);
-            
-            img.classList = 'mx-auto d-block'
-            img.src = `https://openweathermap.org/img/wn/${forecastDay.weather[0].icon}.png`;
-            newEl.appendChild(img);
 
             newEl = document.createElement('p');
             newEl.textContent = `Humidity: ${forecastDay.humidity}%`
@@ -152,7 +148,7 @@ function getForecast(lat, lon) {
     });
 }
 
-initlocalStorage();
+initLocalStorage();
 
 
 
