@@ -1,4 +1,35 @@
 
+var searchHistory = document.getElementById('search-history');
+var searchBody = document.getElementsByClassName('search-body')
+var searchForm = document.getElementById('city-form')
+var searchInput = document.getElementsByClassName('search-input');
+var searchButton = document.getElementsByClassName('btn');
+var locationName = document.getElementById('location-name');
+var weather = document.getElementById('weather-section')
+var futureWeather = document.getElementById('future-weather');
+var date = document.getElementById('date')
+var temp = document.getElementById('temp');
+var currentIcon = document.getElementById('currentIcon');
+var wind = document.getElementById('wind');
+var humidity = document.getElementById('humidity');
+var UV = document.getElementById('UV');
+
+
+
+var today = moment();
+
+var searchList = [];
+var MaxHistory = 10;
+
+function localStorage() {
+    if(localStorage.getItem('storedSearches')) {
+        searchList = JSON.parse(localStorage.getItem('storedSearches'));
+        for (let i = 0; i < searchList.length; i++) {
+            createStorageItems(searchList);
+        }
+    }
+}
+
 // var city;
 
 var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
