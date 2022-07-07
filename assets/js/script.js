@@ -77,10 +77,20 @@ function weather(location) {
         var longitude = weathers.location.lon;
         var latitude = weathers.location.lat;
 
-        
-    })
+        locationName.textContent = weathers.location.name + ', ' + weathers.location.region;
 
+        date.textContent = today.format('MM/DD/YYYY');
+        humidity.textContent = weathers.current.humidity;
+        wind.textContent = weathers.current.wind_mph;
+        temp.textContent = weathers.current.temp_f;
+        UVColor(weathers.current.uv);
+        currentIcon.src = "https:" + weather.current.condition.icon;
+        getForecast(latitude, longitude);
+    });
+    
 }
+
+
 
 // var city;
 
