@@ -21,7 +21,7 @@ var today = moment();
 var searchList = [];
 var MaxHistory = 10;
 
-function localStorage() {
+function initlocalStorage() {
     if(localStorage.getItem('storedSearches')) {
         searchList = JSON.parse(localStorage.getItem('storedSearches'));
         for (let i = 0; i < searchList.length; i++) {
@@ -90,43 +90,71 @@ function weather(location) {
     
 }
 
+function UVColor(index) {
+    var color = '';
+    if(index <= 2) {
+        color = "green";
+    } else if (index <= 5) {
+        color = "yellow";
+
+    } else if (index <= 7) {
+        color = "orange";
+    } else if (index <= 10) {
+        color = "red";
+    } else {
+        color = "blue"
+    }
+    UV.style.backgroundColor = color;
+    UV.textContent = index;
+}
+
+function getForecast(lat, lon) {
+    var apiKey = "76d1b8a660744f79324838626af74619"
+    var queryURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=imperial`;
+    forecastUL.innerHTML = '';
+    fetch(queryURL)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        for(var i = 0; i < 10; i++){
+            var forecastDay = data.daily[i];
+            var newCard = document.createElement('div');
+            var newEl = document.createElement('h4');
+            newCard.className = "forecastDay dayCard";
+            forecastUL.appendChild(newCard);
+
+            newEl.textContent = moment.unix(forecastDay.dt).format('ll');
+            newEl.classList = 'text-center'
+            newCard.appendChild(newEl);
+
+            newEl = document.createElement('div');
+            newEl.classList="mx-auto bg-white border rounded mb-2";
+            newCard.appendChild(newEl);
+            
+            img.classList = 'mx-auto d-block'
+            img.src = `https://openweathermap.org/img/wn/${forecastDay.weather[0].icon}.png`;
+            newEl.appendChild(img);
+
+            newEl = document.createElement('p');
+            newEl.textContent = `Humidity: ${forecastDay.humidity}%`
+            newCard.appendChild(newEl);
+
+            newEl = document.createElement('p');
+            newEl.textContent = `Wind: ${forecastDay.wind_speed} MPH.`
+            newCard.appendChild(newEl);
+
+            newEl = document.createElement('p');
+            newEl.textContent = `Temp: ${Math.floor(forecastDay.temp.max)} / ${Math.floor(forecastDay.temp.min)}`;
+            newCard.appendChild(newEl);
+
+        }
+    });
+}
+
+initlocalStorage();
 
 
-// var city;
-
-// var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
-
-// var listEl = document.getElementById("searchData");
-
-// var form = document.querySelector(".city-input");
-// form.addEventListener("submit", e=> {
-//     e.preventDefault();
-//     var inputVal = input.value;
-    
-// });
-
-// // API key
-// var APIKey = "011dffec3dd0ab191bb9b1386db7001b";
-// var inputVal = input.value;
-
-// fetch(queryURL)
-//     .then(function(response) {
-//         return response.json();
-//     })
-//     .then(function(data) {
-//         var searchArr = data.response.docs;
-//         for(var i = 0; i < searchArr.length; i++) {
-//             var listItem = document.createElement("li");
-//             listItem.textContent = searchArr[i].description;
-//             listEl.appendChild(listItem);
-//         }
-//     })
-//     .catch(() => {
-//         msg.textContent = "Please seach for a valid city";
-//     });
-
-
-// var city = [];
 
 
 
