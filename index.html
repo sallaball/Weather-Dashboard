@@ -14,34 +14,46 @@
         <header class="header col-12">
             <H1>Weather Dashboard</H1></header>
     </div>
+    <main>
     <div class="container">
         <!--here goes search box-->
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row col-md-4">
                 <div class="search-body">
-                    <h2 class="search-text ">Search For a City</h2>
-                    <form class="city-input">
+                    <h2 class="search-text ">Search For a City:</h2>
+                    <form class="city-input" id="city-input">
                         <input type="text" class="search-input" placeholder="Enter City Name"/>
-                        <div class="search-btn ">
-                            <button class="btn" type="button">Search</button>
-                        </div>
+                        <button class="btn" type="submit">Search</button>
                     </form>
-                        <div class="past-search">
-                            <ul class="list">
+                            <ul class="search-history" id="search-history">
                             <!-- this is where the list of past searches goes-->
                             </ul>
-                        </div>
-                    </div>
                 </div>
-            </div>
-
         </div>
     </div>
+    <div id="weather-section" class="weather-section">
+        <section id="current-weather" class="current-weather text-center">
+            <h1><span id="location-name">Location</span></h1>
+            <h2>(<span id="Date"></span>) <img id="currentIcon"></img></h2>
+            <p>Temp: <span id="temp"></span> &deg F</p>
+            <p>Wind: <span id="wind"></span> MPH</p>
+            <p>Humidity: <span id="humidity"></span> %</p>
+            <p>UV Index: <span id="UV" class="btn btn-sm px-4"></span></p>
+        </section>
+
+        <section id="weather-section" class="weather-section">
+            <h4>5 Day Forecast:</h4>
+            <ul id="future-ul" class="future-ul">
+
+            </ul>
+        </section>
+    </div>
+</main>
     
     
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="assets/js/script.js"></script>
+    
 </body>
 </html>

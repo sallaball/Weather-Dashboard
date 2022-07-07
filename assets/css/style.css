@@ -17,12 +17,12 @@
 
 .search-input {
     border: 1px solid black;
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
 }
 
-.search-btn {
-    width: 80%;
+.btn {
+    width: 100%;
     background-color: rgb(93, 93, 241);
     margin-top: 10px;
     text-align: center;
