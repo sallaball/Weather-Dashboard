@@ -25,10 +25,38 @@ function localStorage() {
     if(localStorage.getItem('storedSearches')) {
         searchList = JSON.parse(localStorage.getItem('storedSearches'));
         for (let i = 0; i < searchList.length; i++) {
-            createStorageItems(searchList);
+            createStoragebtn(searchList);
         }
     }
 }
+
+function createStoragebtn(items) {
+    searchHistory.unnerHTML = '';
+    for (var i = 0; i < items.length; i++) {
+        var newEl = document.createElement("li");
+        newEl.classList = "searchList btn";
+        newEl.textContent = items[i];
+        searchHistory.appendChild(newEl);
+    }
+    searchList.value = '';
+};
+
+searchForm.addEventListener('submit', function(e) {
+    searchBody.classList = "";
+    weather.style.display = 'block';
+    e.preventDefault();
+    var input = searchList.value;
+    if(input.length > 0) {
+        weather(input);
+        searchList.unshift(input);
+        if(searchList.length > MaxHistory) {
+            searchList.pop();
+        }
+        createStoragebtn(searchList);
+        searchButton.blur();
+        localStorage.setItem('storedSearches'. JSON.stringify(searchList));
+    }
+})
 
 // var city;
 
