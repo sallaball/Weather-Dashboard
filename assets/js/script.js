@@ -1,4 +1,3 @@
-
 var searchHistory = document.getElementById('search-history');
 var searchBody = document.getElementById('search-body')
 var searchForm = document.getElementById('city-form')
@@ -84,7 +83,7 @@ function currentWeather(location) {
         humidity.textContent = weather.main.humidity;
         wind.textContent = weather.wind.speed;
         temp.textContent = weather.main.temp;
-        UVColor(weather.value);
+        UVColor(temp.uvi);
         currentIcon.src = "https:" + weather.icon;
         getForecast(latitude, longitude);
     });
@@ -129,7 +128,7 @@ function getForecast(lat, lon) {
             // forecastUL.appendChild(newCard);
 
             newEl.textContent = moment.unix(forecastDay).format('ll');
-            newEl.classList = 'text-center'
+            newEl.classList = 'future-ul text-center'
             newCard.appendChild(newEl);
 
             // newEl = document.createElement('div');
@@ -141,15 +140,15 @@ function getForecast(lat, lon) {
             // newEl.appendChild(img);
 
             newEl = document.createElement('p');
-            newEl.textContent = `Temp: ${Math.floor(forecastDay.temp_max)} / ${Math.floor(forecastDay.temp_min)}`;
+            newEl.textContent = `Temp: ${Math.floor(temp.max)} / ${Math.floor(temp.min)}`;
             newCard.appendChild(newEl);
 
             newEl = document.createElement('p');
-            newEl.textContent = `Humidity: ${forecastDay.humidity}%`
+            newEl.textContent = `Humidity: ${humidity}%`
             newCard.appendChild(newEl);
 
             newEl = document.createElement('p');
-            newEl.textContent = `Wind: ${forecastDay.wind_speed} MPH.`
+            newEl.textContent = `Wind: ${wind.speed} MPH.`
             newCard.appendChild(newEl);
 
             
