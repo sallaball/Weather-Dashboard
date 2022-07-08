@@ -5,7 +5,7 @@ var searchForm = document.getElementById('city-form')
 var searchInput = document.getElementById('searchInput');
 var searchButton = document.getElementById('search-btn');
 var locationName = document.getElementById('location-name');
-var weatherDIV = document.getElementById('weatherDIV-section')
+var weatherDIV = document.getElementById('weather-section')
 var futureweatherDIV = document.getElementById('future-weatherDIV');
 var tdate = document.getElementById('date')
 var temp = document.getElementById('temp');
@@ -20,7 +20,7 @@ var today = moment();
 
 var searchList = [];
 var maxHistory = 10;
-debugger;
+// debugger;
 function initLocalStorage(){
     if (localStorage.getItem('storedSearches')){
         searchList = JSON.parse(localStorage.getItem('storedSearches'));
@@ -43,7 +43,7 @@ function createStoragebtn(items) {
 };
 
 
-searchForm.addEventListener('submit', function(e) {
+searchButton.addEventListener('click', function(e) {
     searchBody.classList = "";
     weatherDIV.style.display = 'block';
     e.preventDefault();
@@ -69,23 +69,24 @@ searchHistory.addEventListener('click', function(e) {
 })
 
 function currentWeather(location) {
-    var apiKey = "011dffec3dd0ab191bb9b1386db7001b";
-    var queryURL = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}}&aqi=no`;
+    var apiKey = "03fbbb9b84ed4fa3eb1a5a1ff00e858b";
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=imperial`;
     fetch(queryURL)
     .then(function (response) {
         return response.json();
     })
     .then(function (weather) {
-        var longitude = weather.location.lon;
-        var latitude = weather.location.lat;
-        locationName.textContent = weather.location.name + ', ' + weather.location.region;
+        console.log(weather)
+        var longitude = weather.coord.lon;
+        var latitude = weather.coord.lat;
+        locationName.textContent = weather.name;
 
-        tdate.textContent = today.format('MM/DD/YYYY');
-        humidity.textContent = weather.current.humidity;
-        wind.textContent = weather.current.wind_mph;
-        temp.textContent = weather.current.temp_f;
-        UVColor(weather.current.uv);
-        currentIcon.src = "https:" + weather.current.condition.icon;
+        // tdate.textContent = today.format('MM/DD/YYYY');
+        humidity.textContent = weather.main.humidity;
+        wind.textContent = weather.wind.speed;
+        temp.textContent = weather.main.temp;
+        // UVColor(weather.current.uv);
+        // currentIcon.src = "https:" + weather.current.condition.icon;
         getForecast(latitude, longitude);
     });
     
