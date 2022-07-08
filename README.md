@@ -12,7 +12,7 @@ Site will store up to 10 of the last city searches.
 * Javascript
 
 ## Website
-
+https://sallaball.github.io/Weather-Dashboard/
 
 ## Contribution
 Made by Salla Ball
