@@ -1,9 +1,9 @@
 
 var searchHistory = document.getElementById('search-history');
-var searchBody = document.getElementsByClassName('search-body')
+var searchBody = document.getElementById('search-body')
 var searchForm = document.getElementById('city-form')
 var searchInput = document.getElementById('searchInput');
-var searchButton = document.getElementsByClassName('btn');
+var searchButton = document.getElementById('search-btn');
 var locationName = document.getElementById('location-name');
 var weatherDIV = document.getElementById('weatherDIV-section')
 var futureweatherDIV = document.getElementById('future-weatherDIV');
@@ -20,12 +20,13 @@ var today = moment();
 
 var searchList = [];
 var maxHistory = 10;
-
+debugger;
 function initLocalStorage(){
     if (localStorage.getItem('storedSearches')){
         searchList = JSON.parse(localStorage.getItem('storedSearches'));
         for (let i = 0; i < searchList.length; i++) {
             createStoragebtn(searchList);
+            console.log("hello");
         }
     }
 }
